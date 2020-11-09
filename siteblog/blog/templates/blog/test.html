@@ -1,0 +1,76 @@
+menu
+<!-- Визуальное формирование самого меню (имя + ссылка)  1-ая ступень (след. menu.py)-->
+<div class="{{ menu_class }}"> <!-- Переменная для класса внешнего вида (ключ для ретурна) которую возьмем в menu.py -->
+     <ul>
+         <li><a href="{% url 'home' %}">Home</a></li>
+         {% for item in categories %} <!-- Перебор для формирования каждой ссылки (categories это название ключа для menu.py  -->
+         <li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>  <!-- Ф-цию берем из models.Category  -->
+         {% endfor %}
+     </ul>
+ </div>
+<!-- Теперь есть формирование меню с условными переменными, но сами данные нужно взять отдельно в menu.py
+ там мы укажем заимствованный стиль (который эквивалентен menu_class) и данные для каждой категории (categories)-->
+
+header
+<!-- Визуальное представление меню хедера (хедер со включенным в него меню через ф-цию)
+ 3-я ступень, пред. - menu.py-->
+{% load menu %} <!-- загружаем темлпейт тег menu.py, потому что там нужная функция -->
+<header class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="logo">
+                    <h2><a href="{% url 'home' %}">Classic</a></h2>
+                </div>
+            </div>
+            <div class="col-md-10">
+                {% show_menu %} <!-- Ф-ция из menu.py, это и есть само меню -->
+                <!--<div class="menu">
+                    <ul>
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#">lifestyle</a></li>
+                        <li><a href="#">Food</a></li>
+                        <li><a href="#">Nature</a></li>
+                        <li><a href="#">photography</a></li>
+                    </ul>
+                </div>--> <!-- Как это выглядело без show_menu  -->
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Включает в себя визуальное представление (menu_tpl) и сами данные для формирования (menu.py)
+ это полноценный штмл-документ который можно вставить в базовый шаблон: {% include 'inc/_header.html' %}
+ Но сам _header.html лишь оболочка для уже сформированного show_menu-->
+
+footer
+<!-- сам штмл-файл который показывает элемент "меню" -->
+{% load menu %} <!-- загружаем темлпейт тег menu.py -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="footer-bg">
+                    <div class="row">
+                        <div class="col-md-9">
+                            {% show_menu 'footer-menu' %} <!-- Передаем доп. параметр чтобы изменить класс, так как по умолчанию указано 'menu' -->
+                            <div class="footer-menu">
+                                <ul>
+                                    <li class="active"><a href="#">Home</a></li>
+                                    <li><a href="#">lifestyle</a></li>
+                                    <li><a href="#">Food</a></li>
+                                    <li><a href="#">Nature</a></li>
+                                    <li><a href="#">photography</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="footer-icon">
+                                <p><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

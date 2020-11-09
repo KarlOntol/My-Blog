@@ -1,0 +1,49 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load sidebar %}
+
+{% block title %} {{ post.title }} :: {{ block.super }} {% endblock %}
+
+{% block content %}
+
+<section class="single-blog-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="border-top">
+                    <div class="col-md-8">
+                        <div class="blog-area">
+                            <div class="blog-area-part">
+                                <h2>{{ post.title }}</h2>
+                                <div class="single-content">
+                                <div>
+                                    <span>Категория: <a href="{{ post.category.get_absolute_url }}">{{ post.category }}</a></span>
+                                    <br>
+                                    {% if post.tags.exists %}
+                                    <span>
+                                        Теги:
+                                        {% for tag in post.tags.all %}
+                                            <a href="{{ tag.get_absolute_url }}"> {{ tag.title }}</a>
+                                        {% endfor %}
+                                    </span>
+                                    <br>
+                                    {% endif %}
+                                    <span>Просмотры: {{ post.views }}</span>
+                                </div>
+                                {{ post.content|safe }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        {% include 'blog/search_tpl.html' %}
+                        {% get_popular 5 %}
+                        {% get_tags %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% load static %} <!-- Статику нужно загружать на каждой странице чтобы менять стиль и скрипты из папок в проекте  -->
+{% load cache %} <!-- Загружаем кэш так как будем кэшировать элементы меню потому что их 2 на странице -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Dart Blog{% endblock %}</title> <!-- Объявляем блок title с соотв. названием -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'responsive.css' %}">
+</head>
+
+<body>
+    <div class="wrapper">
+        {% cache 20 header %}  <!-- 3и-й аргумент это класс для кэширования   -->
+        {% include 'inc/_header.html' %} <!-- Включает в себя менюшку по указанному адресу  -->
+        {% endcache %}
+
+        {% block content %} {% endblock %} <!-- Блок к-рый мы указали в index.html  -->
+
+        {% cache 20 footer %}
+        {% include 'inc/_footer.html' %}
+        {% endcache %}
+    </div>
+    <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/active.js' %}"></script> <!-- Тут лежат изменения для подсвечивания кнопки текущий страницы в категории  -->
+</body>
+
+</html>
